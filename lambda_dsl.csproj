@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <!-- <ItemGroup Label="Calculator">
+    <YaccFile Include="Calculator\Calculator.Language.grammar.y">
+      <OutputFile>Calculator\Calculator.Parser.Generated.cs</OutputFile>
+      <Arguments>/gplex /nolines</Arguments>
+    </YaccFile>
+    <None Include="Calculator\Calculator.Parser.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Calculator.Language.grammar.y</DependentUpon>
+    </None>
+    <LexFile Include="Calculator\Calculator.Language.analyzer.lex">
+      <OutputFile>Calculator\Calculator.Scanner.Generated.cs</OutputFile>
+    </LexFile>
+    <None Include="Calculator\Calculator.Scanner.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Calculator.Language.analyzer.lex</DependentUpon>
+    </None>
+  </ItemGroup> -->
+  <ItemGroup Label="LambdaParser">
+    <YaccFile Include="LambdaParser\LambdaParser.Language.grammar.y">
+      <OutputFile>LambdaParser\LambdaParser.Parser.Generated.cs</OutputFile>
+      <Arguments>/gplex /nolines</Arguments>
+    </YaccFile>
+    <None Include="LambdaParser\LambdaParser.Parser.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LambdaParser.Language.grammar.y</DependentUpon>
+    </None>
+    <LexFile Include="LambdaParser\LambdaParser.Language.analyzer.lex">
+      <OutputFile>LambdaParser\LambdaParser.Scanner.Generated.cs</OutputFile>
+    </LexFile>
+    <None Include="LambdaParser\LambdaParser.Scanner.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LambdaParser.Language.analyzer.lex</DependentUpon>
+    </None>
+  </ItemGroup>
+</Project>
