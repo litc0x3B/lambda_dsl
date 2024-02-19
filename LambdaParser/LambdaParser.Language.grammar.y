@@ -3,10 +3,8 @@
 %parsertype LambdaParserParser
 %visibility internal
 %tokentype Token
+%using LambdaSyntaxTree;
 
-%{
-       using LambdaSyntaxTree
-%}
 
 %union { 
               public char Id;
@@ -14,18 +12,24 @@
 	}
 
 
-%start ExpressionList
+%start TermList
 
 %token LAMBDA, ID, P_OPEN, P_CLOSE, DOT
 
 %%
 
-ExpressionList       : ExpressionList Expression                      {$$.Expr = new NodeAppl($1.Expr, $2.Expr); _treeRoot = $$.Expr;}   
-                     | Expression                                     {$$.Expr = $1.Expr}
+TermList             : TermList Term                           {$$.Expr = new NodeAppl($1.Expr, $2.Expr); _treeRoot = $$.Expr;}   
+                     | Expression                              {$$.Expr = $1.Expr; _treeRoot = $$.Expr;}
                      ;
 
-Expression           : ID                                             {$$.Expr = new NodeId($1.Id);}                                     
-                     | P_OPEN LAMBDA DOT ID ExpressionList P_CLOSE    {$$.Expr = new NodeAbstr(new NodeId($4.Id), $5.Expr);} 
+Term                 : P_OPEN TermList P_CLOSE                 {$$.Expr = $2.Expr;}
+                     | Expression                              {$$.Expr = $1.Expr;}
+                     ;
+
+Expression           : ID                                      {$$.Expr = new NodeId($1.Id);}                                     
+                     | P_OPEN LAMBDA ID DOT TermList P_CLOSE   {$$.Expr = new NodeAbstr(new NodeId($3.Id), $5.Expr);} 
                      ;
 
 %%
+
+private NodeExpr _treeRoot;

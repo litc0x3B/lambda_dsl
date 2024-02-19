@@ -1,0 +1,54 @@
+
+// ==========================================================================
+//  GPPG error listing for yacc source file <LambdaParser/LambdaParser.Language.grammar.y - 2/19/2024 5:41:48 PM>
+// ==========================================================================
+//  Version:  1.5.2
+//  DateTime: 2/19/2024 5:42:05 PM
+// ==========================================================================
+
+
+%namespace lambda_dsl.LambdaParser
+%partial
+%parsertype LambdaParserParser
+%visibility internal
+%tokentype Token
+%using LambdaSyntaxTree;
+
+
+%union { 
+              public char Id;
+              public NodeExpr Expr;
+	}
+
+
+%start ExpressionList
+
+%token LAMBDA, ID, P_OPEN, P_CLOSE, DOT
+
+%%
+// Error: There are 2 non-terminating NonTerminal Symbols
+   //  {ExpressionList, $accept}
+// Warning: Terminating ExpressionList fixes the following size-2 NonTerminal set
+   // {ExpressionList, $accept}
+// Error: NonTerminal symbol "ExpressionList" has no productions
+// Warning: NonTerminal symbol "TermList" is unreachable
+// Warning: NonTerminal symbol "Term" is unreachable
+// Warning: NonTerminal symbol "Expression" is unreachable
+// ------------------------------------------------------------------------------
+
+TermList             : TermList Term                           {$$.Expr = new NodeAppl($1.Expr, $2.Expr); _treeRoot = $$.Expr;}   
+                     | Expression                              {$$.Expr = $1.Expr; _treeRoot = $$.Expr;}
+                     ;
+
+Term                 : P_OPEN TermList P_CLOSE                 {$$.Expr = $2.Expr;}
+                     | Expression                              {$$.Expr = $1.Expr;}
+                     ;
+                     
+Expression           : ID                                      {$$.Expr = new NodeId($1.Id);}                                     
+                     | P_OPEN LAMBDA ID DOT TermList P_CLOSE   {$$.Expr = new NodeAbstr(new NodeId($3.Id), $5.Expr);} 
+                     ;
+
+%%
+
+NodeExpr _treeRoot;// ==========================================================================
+

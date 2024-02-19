@@ -1,16 +1,14 @@
-﻿Console.WriteLine("Hello World");
+﻿using lambda_dsl.LambdaParser;
+using LambdaSyntaxTree;
 
-var a = new Num(10);
-var b = a;
-a.n = 10;
-Console.WriteLine(b.n);
+string str = @"(\x.x)((\y.y)z)(\w.w)";
+Console.WriteLine(str);
+var parser = new LambdaParserParser();
+var root = parser.Parse(str);
+DebugClass.root = root;
+Console.WriteLine(root);
 
-class Num {
-    public Num(int n)
-    {
-        this.n = n;
-    }
-    public int n;
+static class DebugClass
+{
+    public static NodeExpr? root;
 }
-
-

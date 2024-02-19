@@ -8,7 +8,6 @@ namespace lambda_dsl.LambdaParser
 {
     internal partial class LambdaParserParser
     {
-        private NodeExpr _treeRoot;
         public LambdaParserParser() : base(null) { }
 
         public NodeExpr Parse(string s)

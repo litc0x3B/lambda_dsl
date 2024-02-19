@@ -1,32 +1,126 @@
 namespace LambdaSyntaxTree {
-    abstract class NodeExpr {}
+
+    abstract class NodeExpr 
+    {
+        // public abstract NodeExpr Eval();
+        // public abstract NodeExpr Apply(NodeExpr arg);
+        // public abstract NodeExpr Substitute(NodeId id, NodeExpr expr);
+        public abstract override string ToString();
+    }
 
     class NodeAppl : NodeExpr 
     {
-        public NodeExpr[] Children {get; set;}
-        NodeAppl(NodeExpr NodeExprLeft, NodeExpr NodeExprRight)
+        private NodeExpr _left;
+        private NodeExpr _right; 
+
+        public NodeAppl(NodeExpr left, NodeExpr right)
         {
-            Children = [NodeExprLeft, NodeExprRight];
+            _left = left;
+            _right = right;
+        }
+
+        // public override NodeExpr Eval()
+        // {
+        //     _right = _right.Eval();
+        //     _left = _left.Apply(_right);
+        //     return _left;
+        // }
+
+        // public override NodeExpr Apply(NodeExpr arg)
+        // {
+        //     this.Eval();
+        //     _left = _left.Apply(arg);
+        //     _right = _right.Apply(arg);
+        //     return this;
+        // }
+
+        // public override NodeExpr Substitute(NodeId id, NodeExpr expr)
+        // {
+        //     _left = _left.Substitute(id, expr);
+        //     _right = _right.Substitute(id, expr);
+        //     this.Eval();
+        //     return this;
+        // }
+
+        public override string ToString()
+        {
+            string rightString = _right.ToString();
+            if (_right is NodeAppl)
+            {
+                rightString = '(' + rightString + ')';
+            }
+
+            return _left.ToString() + rightString;
         }
     }
 
     class NodeAbstr : NodeExpr 
     {
-        public NodeId Id {get; set;}
-        public NodeExpr Expr {get; set;}
-        NodeAbstr(NodeId id, NodeExpr expr)
+        private NodeId _id;
+        private NodeExpr _expr;
+
+        public NodeAbstr(NodeId id, NodeExpr expr)
         {
-            Id = id;
-            Expr = expr;
+            _id = id;
+            _expr = expr;
+        }
+
+        // public override NodeExpr Eval()
+        // {
+        //     _expr = _expr.Eval();
+        //     return this;
+        // }
+
+        // public override NodeExpr Apply(NodeExpr arg)
+        // {
+        //     _expr = _expr.Substitute(_id, arg);
+        //     return _expr;
+        // }
+
+        // public override NodeExpr Substitute(NodeId id, NodeExpr expr)
+        // {
+        //     _expr = _expr.Substitute(id, expr);
+        //     return this;
+        // }
+
+        public override string ToString()
+        {
+            return "(\\" + _id.ToString() + '.' + _expr.ToString() + ')';
         }
     }
 
     class NodeId : NodeExpr 
     {
-        NodeId(char name) 
+        private char _name;
+
+        public NodeId(char name) 
         {
-            Name = name;
+            _name = name;
         }
-        public char Name {get; set;}
+
+        // public override NodeExpr Eval()
+        // {
+        //     return this;
+        // }
+
+        // public override NodeExpr Apply(NodeExpr arg)
+        // {
+        //     return new NodeAppl(this, arg);
+        // }
+
+        // public override NodeExpr Substitute(NodeId id, NodeExpr expr)
+        // {
+        //     if (id._name == _name)
+        //     {
+        //         return expr;
+        //     }
+
+        //     return this;
+        // }
+
+        public override string ToString()
+        {
+            return _name.ToString();
+        }
     }
 }

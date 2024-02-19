@@ -5,8 +5,8 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.2.2
-//  DateTime: 2/18/2024 7:16:03 PM
-//  GPLEX input file <Calculator/Calculator.Language.analyzer.lex - 2/18/2024 5:10:00 PM>
+//  DateTime: 2/19/2024 6:21:01 PM
+//  GPLEX input file <LambdaParser/LambdaParser.Language.analyzer.lex - 2/19/2024 6:20:03 PM>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: verbose, parser, stack, minimize
@@ -32,7 +32,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using QUT.GplexBuffers;
 
-namespace lambda_dsl.Calculator
+namespace lambda_dsl.LambdaParser
 {   
     /// <summary>
     /// Summary Canonical example of GPLEX automaton
@@ -85,7 +85,7 @@ namespace lambda_dsl.Calculator
     // If the compiler can't find the scanner base class maybe you
     // need to run GPPG with the /gplex option, or GPLEX with /noparser
 #if BABEL
-     internal sealed partial class CalculatorScanner : ScanBase, IColorScan
+     internal sealed partial class LambdaParserScanner : ScanBase, IColorScan
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -102,7 +102,7 @@ namespace lambda_dsl.Calculator
                    currentStart = startState[value]; }
         }
 #else  // BABEL
-     internal sealed partial class CalculatorScanner : ScanBase
+     internal sealed partial class LambdaParserScanner : ScanBase
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -123,8 +123,8 @@ namespace lambda_dsl.Calculator
         
         enum Result {accept, noMatch, contextFound};
 
-        const int maxAccept = 8;
-        const int initial = 9;
+        const int maxAccept = 6;
+        const int initial = 7;
         const int eofNum = 0;
         const int goStart = -1;
         const int INITIAL = 0;
@@ -161,9 +161,9 @@ namespace lambda_dsl.Calculator
         }
     };
 
-    static int[] startState = new int[] {9, 0};
+    static int[] startState = new int[] {7, 0};
 
-    static Table[] NxS = new Table[10] {
+    static Table[] NxS = new Table[8] {
 /* NxS[   0] */ new Table(0, 0, 0, null), // Shortest string ""
 /* NxS[   1] */ // Shortest string "\t"
       new Table(9, 24, -1, new sbyte[] {1, -1, -1, -1, -1, -1, 
@@ -171,18 +171,18 @@ namespace lambda_dsl.Calculator
           -1, 1}),
 /* NxS[   2] */ new Table(0, 0, -1, null), // Shortest string "("
 /* NxS[   3] */ new Table(0, 0, -1, null), // Shortest string ")"
-/* NxS[   4] */ new Table(0, 0, -1, null), // Shortest string "*"
-/* NxS[   5] */ new Table(0, 0, -1, null), // Shortest string "+"
-/* NxS[   6] */ new Table(0, 0, -1, null), // Shortest string "-"
-/* NxS[   7] */ new Table(0, 0, -1, null), // Shortest string "/"
-/* NxS[   8] */ // Shortest string "0"
-      new Table(48, 10, -1, new sbyte[] {8, 8, 8, 8, 8, 8, 
-          8, 8, 8, 8}),
-/* NxS[   9] */ // Shortest string ""
-      new Table(9, 49, -1, new sbyte[] {1, -1, -1, -1, -1, -1, 
+/* NxS[   4] */ new Table(0, 0, -1, null), // Shortest string "."
+/* NxS[   5] */ new Table(0, 0, -1, null), // Shortest string "\\"
+/* NxS[   6] */ new Table(0, 0, -1, null), // Shortest string "a"
+/* NxS[   7] */ // Shortest string ""
+      new Table(9, 114, -1, new sbyte[] {1, -1, -1, -1, -1, -1, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          -1, 1, -1, -1, -1, -1, -1, -1, -1, 2, 3, 4, 5, -1, 6, -1, 
-          7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8}),
+          -1, 1, -1, -1, -1, -1, -1, -1, -1, 2, 3, -1, -1, -1, -1, 4, 
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, -1, -1, 
+          -1, -1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
+          6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6}),
     };
 
 int NextState() {
@@ -265,12 +265,12 @@ int NextState() {
         // =================== End Nested classes =======================
 
 #if !NOFILES
-     internal CalculatorScanner(Stream file) {
+     internal LambdaParserScanner(Stream file) {
             SetSource(file); // no unicode option
         }   
 #endif // !NOFILES
 
-     internal CalculatorScanner() { }
+     internal LambdaParserScanner() { }
 
         private int readPos;
 
@@ -614,25 +614,19 @@ int NextState() {
 /* skip */
             break;
         case 2: // Recognized '{POpen}',	Shortest string "("
-Console.WriteLine("token: {0}", yytext);		return (int)Token.P_OPEN;
+/*Console.WriteLine("token: {0}", yytext);*/ return (int)Token.P_OPEN;
             break;
         case 3: // Recognized '{PClose}',	Shortest string ")"
-Console.WriteLine("token: {0}", yytext);		return (int)Token.P_CLOSE;
+/*Console.WriteLine("token: {0}", yytext);*/ return (int)Token.P_CLOSE;
             break;
-        case 4: // Recognized '{OpMult}',	Shortest string "*"
-Console.WriteLine("token: {0}", yytext);		return (int)Token.OP_MULT;
+        case 4: // Recognized '{Dot}',	Shortest string "."
+/*Console.WriteLine("token: {0}", yytext);*/ return (int)Token.DOT;
             break;
-        case 5: // Recognized '{OpPlus}',	Shortest string "+"
-Console.WriteLine("token: {0}", yytext);		return (int)Token.OP_PLUS;
+        case 5: // Recognized '{Lambda}',	Shortest string "\\"
+/*Console.WriteLine("token: LAMBDA");*/ return (int)Token.LAMBDA;
             break;
-        case 6: // Recognized '{OpMinus}',	Shortest string "-"
-Console.WriteLine("token: {0}", yytext);		return (int)Token.OP_MINUS;
-            break;
-        case 7: // Recognized '{OpDiv}',	Shortest string "/"
-Console.WriteLine("token: {0}", yytext);		return (int)Token.OP_DIV;
-            break;
-        case 8: // Recognized '{Number}',	Shortest string "0"
-Console.WriteLine("token: {0}", yytext);		GetNumber(); return (int)Token.NUMBER;
+        case 6: // Recognized '{Id}',	Shortest string "a"
+/*Console.WriteLine("token: {0}", yytext);*/ GetChar(); return (int)Token.ID;
             break;
         default:
             break;
