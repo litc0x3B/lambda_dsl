@@ -3,8 +3,8 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 1.5.2
-// DateTime: 2/19/2024 7:51:58 PM
-// Input file <LambdaParser/LambdaParser.Language.grammar.y - 2/19/2024 6:26:59 PM>
+// DateTime: 2/21/2024 3:14:03 PM
+// Input file <LambdaParser/LambdaParser.Language.grammar.y - 2/21/2024 2:20:27 PM>
 
 // options: no-lines gplex
 
@@ -52,33 +52,32 @@ internal partial class LambdaParserParser: ShiftReduceParser<ValueType, LexLocat
   private static Dictionary<int, string> aliases;
 #pragma warning restore 649
   private static Rule[] rules = new Rule[8];
-  private static State[] states = new State[16];
+  private static State[] states = new State[15];
   private static string[] nonTerms = new string[] {
       "TermList", "$accept", "Term", "Expression", };
 
   static LambdaParserParser() {
-    states[0] = new State(new int[]{5,8,6,15},new int[]{-1,1,-4,14});
+    states[0] = new State(new int[]{6,4,5,8},new int[]{-1,1,-3,14,-4,7});
     states[1] = new State(new int[]{3,2,6,4,5,8},new int[]{-3,3,-4,7});
     states[2] = new State(-1);
     states[3] = new State(-2);
-    states[4] = new State(new int[]{4,9,5,8,6,15},new int[]{-1,5,-4,14});
+    states[4] = new State(new int[]{4,9,6,4,5,8},new int[]{-1,5,-3,14,-4,7});
     states[5] = new State(new int[]{7,6,6,4,5,8},new int[]{-3,3,-4,7});
     states[6] = new State(-4);
     states[7] = new State(-5);
     states[8] = new State(-6);
     states[9] = new State(new int[]{5,10});
     states[10] = new State(new int[]{8,11});
-    states[11] = new State(new int[]{5,8,6,15},new int[]{-1,12,-4,14});
+    states[11] = new State(new int[]{6,4,5,8},new int[]{-1,12,-3,14,-4,7});
     states[12] = new State(new int[]{7,13,6,4,5,8},new int[]{-3,3,-4,7});
     states[13] = new State(-7);
     states[14] = new State(-3);
-    states[15] = new State(new int[]{4,9});
 
     for (int sNo = 0; sNo < states.Length; sNo++) states[sNo].number = sNo;
 
     rules[1] = new Rule(-2, new int[]{-1,3});
     rules[2] = new Rule(-1, new int[]{-1,-3});
-    rules[3] = new Rule(-1, new int[]{-4});
+    rules[3] = new Rule(-1, new int[]{-3});
     rules[4] = new Rule(-3, new int[]{6,-1,7});
     rules[5] = new Rule(-3, new int[]{-4});
     rules[6] = new Rule(-4, new int[]{5});
@@ -100,7 +99,7 @@ internal partial class LambdaParserParser: ShiftReduceParser<ValueType, LexLocat
       case 2: // TermList -> TermList, Term
 {CurrentSemanticValue.Expr = new NodeAppl(ValueStack[ValueStack.Depth-2].Expr, ValueStack[ValueStack.Depth-1].Expr); _treeRoot = CurrentSemanticValue.Expr;}
         break;
-      case 3: // TermList -> Expression
+      case 3: // TermList -> Term
 {CurrentSemanticValue.Expr = ValueStack[ValueStack.Depth-1].Expr; _treeRoot = CurrentSemanticValue.Expr;}
         break;
       case 4: // Term -> P_OPEN, TermList, P_CLOSE

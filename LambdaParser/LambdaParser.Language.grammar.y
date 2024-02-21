@@ -19,7 +19,7 @@
 %%
 
 TermList             : TermList Term                           {$$.Expr = new NodeAppl($1.Expr, $2.Expr); _treeRoot = $$.Expr;}   
-                     | Expression                              {$$.Expr = $1.Expr; _treeRoot = $$.Expr;}
+                     | Term                                    {$$.Expr = $1.Expr; _treeRoot = $$.Expr;}
                      ;
 
 Term                 : P_OPEN TermList P_CLOSE                 {$$.Expr = $2.Expr;}
